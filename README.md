@@ -18,3 +18,7 @@ This project is an end-to-end machine learning pipeline designed to predict medi
 1. Clone the repository:
    ```bash
    git clone https://github.com/Wifi1230/Housing-Price-Prediction.git
+2. Build and run with Docker:
+   ```bash
+   docker build -t housing-app .
+   docker run housing-app
