@@ -20,5 +20,5 @@ This project is an end-to-end machine learning pipeline designed to predict medi
    git clone https://github.com/Wifi1230/Housing-Price-Prediction.git
 2. Build and run with Docker:
    ```bash
-   docker build -t housing-app .
-   docker run housing-app
+   docker-compose up --build
+Note: This command automatically sets up the MySQL database, performs data migration, and starts the training process for the Linear Regression model.
