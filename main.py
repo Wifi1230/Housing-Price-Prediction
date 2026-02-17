@@ -21,6 +21,12 @@ def main():
 
     pipeline.fit(X_train, y_train)
 
+    trained_model = pipeline.named_steps['model']
+    print(f"Intercept: {trained_model.intercept_:.2f}")
+
+    for feature, coef in zip(X_train.columns, trained_model.coef_):
+        print(f"Cecha: {feature:20} | Waga: {coef:.4f}")
+
     predictions = pipeline.predict(X_test)
     mse = mean_squared_error(y_test, predictions)
 
