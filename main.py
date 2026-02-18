@@ -19,5 +19,7 @@ def main():
     baseline_mse = mean_squared_error(y_test, baseline_pred)
     print(f"Baseline RMSE: {np.sqrt(baseline_mse):.2f}$")
 
+    model.save_model()
+
 if __name__ == "__main__":
     main()

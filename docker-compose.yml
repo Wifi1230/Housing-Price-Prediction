@@ -16,3 +16,5 @@ services:
     build: .
     depends_on:
       - db
+    volumes:
+      - .:/app

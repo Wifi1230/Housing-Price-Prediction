@@ -2,6 +2,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
+import joblib
 import numpy as np
 
 class HousePriceModel():
@@ -30,3 +31,11 @@ class HousePriceModel():
 
         print(f"RMSE modelu: {np.sqrt(mse):.2f}$")
         print(f"R2 score: {r2_score(self.y_test, predictions):.3f}")
+
+    def save_model(self, path="model.joblib"):
+        joblib.dump(self.pipeline, path)
+        print(f"Model 'zamrożony' w pliku: {path}")
+
+    def load_model(self, path="model.joblib"):
+        self.pipeline = joblib.load(path)
+        print(f"Model wczytany z pliku!")
