@@ -1,8 +1,6 @@
 from src.processor import DataProcessor
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
+from trainer import HousePriceModel
+from sklearn.metrics import mean_squared_error
 import numpy as np
 
 def main():
@@ -10,33 +8,16 @@ def main():
     proc.load_from_mysql()
     proc.clean_data()
 
-    X_train, X_test, y_train, y_test = proc.get_train_test_split(
-        target_column='median_house_value'
-    )
+    model=HousePriceModel(proc)
+    model.train()
+    model.evaluate()
 
-    pipeline = Pipeline([
-        ("scaler", StandardScaler()),
-        ("model", LinearRegression())
-    ])
-
-    pipeline.fit(X_train, y_train)
-
-    trained_model = pipeline.named_steps['model']
-    print(f"Intercept: {trained_model.intercept_:.2f}")
-
-    for feature, coef in zip(X_train.columns, trained_model.coef_):
-        print(f"Cecha: {feature:20} | Waga: {coef:.4f}")
-
-    predictions = pipeline.predict(X_test)
-    mse = mean_squared_error(y_test, predictions)
-
-    print(f"RMSE modelu: {np.sqrt(mse):.2f}$")
+    y_train=model.y_train
+    y_test=model.y_test
 
     baseline_pred = [y_train.mean()] * len(y_test)
     baseline_mse = mean_squared_error(y_test, baseline_pred)
     print(f"Baseline RMSE: {np.sqrt(baseline_mse):.2f}$")
-
-    print(f"R2 score: {r2_score(y_test, predictions):.3f}")
 
 if __name__ == "__main__":
     main()
